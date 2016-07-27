@@ -1,0 +1,178 @@
+{% block head %}
+
+	<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel = "stylesheet">
+
+	<style>
+		p {
+			font-size: 15px;
+			font-family: "Verdana";
+		}
+		.red {
+			background-color: #FF9494;
+		}
+		.yellow {
+			background-color: #FFFCB9;
+		}
+		.blue {
+			background-color: #8AB2EA;
+		}	
+		.green {
+			background-color: #93C993;
+		}
+		.purple {
+			background-color: #B393CA;
+		}
+		.gray {
+			background-color: white;
+		}
+		p {
+			padding: 5px;
+		}	
+		.check {
+			margin-left: 10px !important;
+			margin-right: 5px !important;
+		}	
+		#panel {
+			background-color: #E6E6E6;
+			box-shadow: 5px 0 15px -6px #585858 inset;
+			box-sizing: content-box;	
+			padding: 10px;
+		}
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="static/jquery.slidereveal.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			var panel = $('#panel').slideReveal({position:"right"});
+			panel.slideReveal("hide");
+			$('p').click(function() {
+				$('#happiness').text($(this).attr("data-happiness"));
+				$('#sadness').text($(this).attr("data-sadness"));
+				$('#anger').text($(this).attr("data-anger"));
+				$('#fear').text($(this).attr("data-fear"));
+				$('#disgust').text($(this).attr("data-disgust"));
+				panel.slideReveal("show");
+			});
+			$(function(){
+  				$('.check').click(function(){
+    					if ($("#select_happiness").is(':checked')){
+						$('.happiness').removeClass('gray');
+						$('.happiness').addClass('yellow');	
+    					}
+					else {
+						$('.happiness').removeClass('yellow');
+						$('.happiness').addClass('gray');
+					}
+					if ($("#select_sadness").is(':checked')){
+						$('.sadness').removeClass('gray');
+						$('.sadness').addClass('blue');	
+    					}
+					else {
+						$('.sadness').removeClass('blue');
+						$('.sadness').addClass('gray');
+					}
+					if ($("#select_anger").is(':checked')){
+						$('.anger').removeClass('gray');
+						$('.anger').addClass('red');	
+    					}
+					else {
+						$('.anger').removeClass('red');
+						$('.anger').addClass('gray');
+					}
+					if ($("#select_fear").is(':checked')){
+						$('.fear').removeClass('gray');
+						$('.fear').addClass('purple');	
+    					}
+					else {
+						$('.fear').removeClass('purple');
+						$('.fear').addClass('gray');
+					}
+					if ($("#select_disgust").is(':checked')){
+						$('.disgust').removeClass('gray');
+						$('.disgust').addClass('green');	
+    					}
+					else {
+						$('.disgust').removeClass('green');
+						$('.disgust').addClass('gray');
+					}
+  				});
+			});
+		});
+	</script>
+
+{% endblock %}
+
+{% block body %}
+	<nav id = 'header' data-offset-top="100" data-spy="affix" class="navbar navbar-default navbar-fixed-top">
+  		<div class="container-fluid">
+    			<div class="navbar-header">
+      				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        				<span class="sr-only">Toggle navigation</span>
+        				<span class="icon-bar"></span>
+        				<span class="icon-bar"></span>
+        				<span class="icon-bar"></span>
+      				</button>
+      				<a class="navbar-brand" href="#">Frankenstein</a>
+    			</div>
+    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      				<ul class="nav navbar-nav">
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false";>Highlight Dominant Emotion<span class="caret"></span></a>
+          					<ul class="dropdown-menu">
+            						<li role="separator" class="divider"></li>
+            						<li><input class='check' id='select_happiness' type='checkbox' checked></input>Joy</li>
+            						<li role="separator" class="divider"></li>
+            						<li><input class='check' id='select_sadness' type='checkbox' checked></input>Sadness</li>
+							<li role="separator" class="divider"></li>
+            						<li><input class='check' id='select_anger' type='checkbox' checked></input>Anger</li>
+							<li role="separator" class="divider"></li>
+            						<li><input class='check' id='select_fear' type='checkbox' checked></input>Fear</li>
+							<li role="separator" class="divider"></li>
+            						<li><input class='check' id='select_disgust' type='checkbox' checked></input>Disgust</li>
+          					</ul>
+        				</li>
+      				</ul>
+      				</form>
+    			</div>
+  		</div>
+	</nav>
+	<div style="height:50px;"></div>
+	<div class="container">
+			{% for p in paragraph %}
+			<div class = "parent">
+				{% if p.happiness > p.sadness and p.happiness > p.anger and p.happiness > p.fear and p.happiness > p.disgust %}
+					<p data-happiness = "{{ p.happiness }}" data-sadness = "{{ p.sadness }}" data-anger = "{{ p.anger }}" data-fear = "{{ p.fear }}" data-disgust = "{{ p.disgust}}"><span class="yellow happiness">{{ p }}</span></p>
+				{% endif %}
+				{% if p.sadness > p.happiness and p.sadness > p.anger and p.sadness > p.fear and p.sadness > p.disgust %}
+					<p data-happiness = "{{ p.happiness }}" data-sadness = "{{ p.sadness }}" data-anger = "{{ p.anger }}" data-fear = "{{ p.fear }}" data-disgust = "{{ p.disgust}}"><span class="blue sadness">{{ p }}</span></p>
+				{% endif %}
+				{% if p.anger > p.happiness and p.anger > p.sadness and p.anger > p.fear and p.anger > p.disgust %}
+					<p data-happiness = "{{ p.happiness }}" data-sadness = "{{ p.sadness }}" data-anger = "{{ p.anger }}" data-fear = "{{ p.fear }}" data-disgust = "{{ p.disgust}}"><span class="red anger">{{ p }}</span></p>
+				{% endif %}
+				{% if p.fear > p.happiness and p.fear > p.sadness and p.fear > p.anger and p.fear > p.disgust %}
+					<p data-happiness = "{{ p.happiness }}" data-sadness = "{{ p.sadness }}" data-anger = "{{ p.anger }}" data-fear = "{{ p.fear }}" data-disgust = "{{ p.disgust}}"><span class="purple fear">{{ p }}</span></p>
+				{% endif %}
+				{% if p.disgust > p.happiness and p.disgust > p.sadness and p.disgust > p.anger and p.disgust > p.fear %}
+					<p data-happiness = "{{ p.happiness }}" data-sadness = "{{ p.sadness }}" data-anger = "{{ p.anger }}" data-fear = "{{ p.fear }}" data-disgust = "{{ p.disgust}}"><span class="green disgust">{{ p }}</span></p>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+	<div id="panel">
+		<div style="height:40px;"></div>
+		<h1>Emotion Details</h1>
+		<p>Joy: <span id = "happiness"></span></p>
+		<p>Sadness: <span id = "sadness"></span></p>
+		<p>Anger: <span id = "anger"></span></p>
+		<p>Fear: <span id = "fear"></span></p>
+		<p>Disgust: <span id = "disgust"></span></p>
+	</div>
+{% endblock %}
